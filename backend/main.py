@@ -1,18 +1,21 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from .database import connect_db, close_db
+# database
+from backend.database import connect_db, close_db
 
+# router
+from backend.routes.auth import router as auth_router  # تأكد من path صحيح
 
-
+# lifespan
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await connect_db()
     yield
     await close_db()
 
-
+# app
 app = FastAPI(
     title="Finance Planner AI",
     description="Smart financial planning with AI-powered recommendations",
@@ -20,7 +23,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-
+# middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -33,10 +36,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-
-
-
-
-
+# include router
+app.include_router(auth_router)  # ⚡ هنا خاص Swagger يشوف endpoints
