@@ -53,3 +53,34 @@ async def register(user_data: UserCreate, db=Depends(get_db)):
         )
     )
  
+
+
+@router.post("/login", response_model=TokenResponse)
+async def login(user_data: UserLogin):
+    db = get_db()
+    user_doc = await db.users.find_one({"email": user_data.email})
+    if not user_doc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials"
+        )
+
+ 
+    if not verify_password(user_data.password, user_doc["password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials"
+        )
+
+    user_id = str(user_doc["_id"])
+    token = create_access_token({"sub": user_id, "email": user_doc["email"]})
+
+    return TokenResponse(
+        access_token=token,
+        user=UserResponse(
+            id=user_id,
+            username=user_doc["username"],
+            email=user_doc["email"],
+            created_at=user_doc["created_at"]
+        )
+    )
