@@ -11,38 +11,38 @@ import { StatusBar } from "expo-status-bar";
 import styles from "../styles/home.style";
 import COLORS from "../constants/colors";
 
-const QUICK_ACTIONS = [
+const FEATURES = [
   {
     id: "1",
-    label: "Envoyer",
-    desc: "Transfert rapide",
-    icon: "paper-plane",
-    bg: COLORS.primary,
+    icon: "wallet-outline",
+    iconBg: COLORS.primary,
     iconColor: COLORS.white,
+    title: "Suivi des dépenses",
+    desc: "Visualisez où va votre argent chaque mois et gardez le contrôle.",
   },
   {
     id: "2",
-    label: "Recevoir",
-    desc: "Demander un paiement",
-    icon: "download-outline",
-    bg: COLORS.accent,
+    icon: "trending-up-outline",
+    iconBg: COLORS.accent,
     iconColor: COLORS.primary,
+    title: "Objectifs d'épargne",
+    desc: "Fixez vos objectifs et suivez votre progression en temps réel.",
   },
   {
     id: "3",
-    label: "Statistiques",
-    desc: "Voir les dépenses",
-    icon: "bar-chart-outline",
-    bg: "#FFF0F5",
+    icon: "pie-chart-outline",
+    iconBg: "#FFF0F5",
     iconColor: COLORS.accentPink,
+    title: "Budgets intelligents",
+    desc: "Créez des budgets par catégorie et évitez les mauvaises surprises.",
   },
   {
     id: "4",
-    label: "Historique",
-    desc: "Toutes vos transactions",
-    icon: "time-outline",
-    bg: "#F0FFFE",
+    icon: "shield-checkmark-outline",
+    iconBg: "#F0FFFE",
     iconColor: COLORS.accent,
+    title: "100% Sécurisé",
+    desc: "Vos données financières sont protégées et chiffrées.",
   },
 ];
 
@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.screen}>
       <StatusBar style="dark" />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
 
         {/* ── Lottie Animation ─────────────────────── */}
         <View style={styles.animationSection}>
@@ -64,9 +64,9 @@ export default function HomeScreen({ navigation }) {
             autoPlay
             loop
           />
-          <Text style={styles.animationTitle}>Vos finances, en vol ✈️</Text>
+          <Text style={styles.animationTitle}>Gérez votre argent 💰</Text>
           <Text style={styles.animationSubtitle}>
-            Envoyez de l'argent partout dans le monde rapidement et en toute sécurité.
+            Organisez vos finances, suivez vos dépenses et atteignez vos objectifs d'épargne facilement.
           </Text>
         </View>
 
@@ -91,21 +91,19 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* ── Quick Actions ────────────────────────── */}
-        <Text style={styles.sectionTitle}>Actions rapides</Text>
-        <View style={styles.actionsGrid}>
-          {QUICK_ACTIONS.map((action) => (
-            <TouchableOpacity
-              key={action.id}
-              style={styles.actionCard}
-              activeOpacity={0.8}
-            >
-              <View style={[styles.actionIconCircle, { backgroundColor: action.bg }]}>
-                <Ionicons name={action.icon} size={22} color={action.iconColor} />
+        {/* ── Features ─────────────────────────────── */}
+        <Text style={styles.sectionTitle}>Pourquoi FinanceApp ?</Text>
+        <View style={styles.featuresList}>
+          {FEATURES.map((f) => (
+            <View key={f.id} style={styles.featureCard}>
+              <View style={[styles.featureIconCircle, { backgroundColor: f.iconBg }]}>
+                <Ionicons name={f.icon} size={22} color={f.iconColor} />
               </View>
-              <Text style={styles.actionLabel}>{action.label}</Text>
-              <Text style={styles.actionDesc}>{action.desc}</Text>
-            </TouchableOpacity>
+              <View style={styles.featureText}>
+                <Text style={styles.featureTitle}>{f.title}</Text>
+                <Text style={styles.featureDesc}>{f.desc}</Text>
+              </View>
+            </View>
           ))}
         </View>
 

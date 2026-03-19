@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
   },
 
-  // ── Quick actions ──────────────────────────────────
+  // ── Features ───────────────────────────────────────
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
@@ -97,48 +97,51 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
 
-  actionsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingHorizontal: 16,
+  featuresList: {
+    paddingHorizontal: 20,
     gap: 12,
   },
 
-  actionCard: {
-    width: (width - 56) / 2,
+  featureCard: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: COLORS.cardBackground,
     borderRadius: 18,
-    padding: 18,
-    alignItems: "flex-start",
+    padding: 16,
     borderWidth: 1.5,
     borderColor: COLORS.border,
     shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.05,
     shadowRadius: 8,
-    elevation: 3,
+    elevation: 2,
+    gap: 14,
   },
 
-  actionIconCircle: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+  featureIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
+    flexShrink: 0,
   },
 
-  actionLabel: {
+  featureText: {
+    flex: 1,
+  },
+
+  featureTitle: {
     fontSize: 14,
     fontWeight: "700",
     color: COLORS.primary,
     marginBottom: 3,
   },
 
-  actionDesc: {
-    fontSize: 11,
+  featureDesc: {
+    fontSize: 12,
     color: COLORS.textSecondary,
-    lineHeight: 16,
+    lineHeight: 17,
   },
 
 });
