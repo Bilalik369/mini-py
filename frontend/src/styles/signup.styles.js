@@ -1,116 +1,185 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../constants/colors";
 
+const { height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
- 
-  scrollViewStyle: {
+  screen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.primary,
   },
 
-  container: {
-    flexGrow: 1,
-    backgroundColor: COLORS.background,
-    padding: 20,
-    justifyContent: "center",
-  },
-
-  card: {
-    backgroundColor: COLORS.cardBackground,
-    borderRadius: 16,
-    padding: 24,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-  },
-
+  // ── Navy Header ────────────────────────────────────
   header: {
+    height: height * 0.26,
+    backgroundColor: COLORS.primary,
     alignItems: "center",
-    marginBottom: 32,
+    justifyContent: "flex-end",
+    paddingBottom: 28,
+    paddingHorizontal: 24,
   },
 
-  title: {
-    fontSize: 32,
-    fontWeight: "700",
-    fontFamily: "JetBrainsMono-Medium",
-    color: COLORS.primary,
-    marginBottom: 8,
+  logoCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: COLORS.accentPink,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+    shadowColor: COLORS.accentPink,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 6,
   },
 
-  subtitle: {
-    fontSize: 16,
+  appName: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: COLORS.white,
+    letterSpacing: 0.8,
+    marginBottom: 4,
+  },
+
+  appTagline: {
+    fontSize: 13,
+    color: COLORS.accentLight,
+  },
+
+  // ── White Card ─────────────────────────────────────
+  card: {
+    flex: 1,
+    backgroundColor: COLORS.cardBackground,
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    paddingHorizontal: 28,
+    paddingTop: 28,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+
+  cardTitle: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: COLORS.textDark,
+    marginBottom: 4,
+  },
+
+  cardSubtitle: {
+    fontSize: 13,
     color: COLORS.textSecondary,
-    textAlign: "center",
+    marginBottom: 22,
+    lineHeight: 19,
   },
 
-  formContainer: { marginBottom: 16 },
-  inputGroup: { marginBottom: 20 },
+  // ── Inputs ─────────────────────────────────────────
+  inputGroup: {
+    marginBottom: 16,
+  },
 
   label: {
-    fontSize: 14,
-    marginBottom: 8,
-    color: COLORS.textPrimary,
-    fontWeight: "500",
+    fontSize: 12,
+    fontWeight: "700",
+    color: COLORS.primary,
+    marginBottom: 7,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
   },
 
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.inputBackground,
-    borderRadius: 12,
-    borderWidth: 1,
+    borderRadius: 14,
+    borderWidth: 1.5,
     borderColor: COLORS.border,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
+    height: 52,
   },
 
-  inputIcon: { marginRight: 10 },
+  inputContainerFocused: {
+    borderColor: COLORS.accent,
+    backgroundColor: "#EEFFFE",
+    shadowColor: COLORS.accent,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+
+  inputIcon: {
+    marginRight: 10,
+  },
 
   input: {
     flex: 1,
-    height: 48,
+    fontSize: 15,
     color: COLORS.textDark,
   },
 
-  eyeIcon: { padding: 8 },
+  eyeIcon: {
+    padding: 6,
+  },
 
+  // ── Password strength ──────────────────────────────
+  strengthRow: {
+    flexDirection: "row",
+    marginTop: 8,
+    gap: 5,
+  },
+
+  strengthBar: {
+    flex: 1,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: COLORS.border,
+  },
+
+  // ── Button ─────────────────────────────────────────
   button: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    height: 50,
+    backgroundColor: COLORS.accent,
+    borderRadius: 14,
+    height: 54,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 16,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    marginTop: 8,
+    shadowColor: COLORS.accent,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 6,
   },
 
   buttonText: {
-    color: COLORS.white,
+    color: COLORS.primary,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "800",
+    letterSpacing: 0.6,
   },
 
+  // ── Footer ─────────────────────────────────────────
   footer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 24,
+    alignItems: "center",
+    marginTop: 18,
+    paddingBottom: 20,
   },
 
   footerText: {
     color: COLORS.textSecondary,
-    marginRight: 5,
+    fontSize: 14,
   },
 
   link: {
-    color: COLORS.primary,
-    fontWeight: "600",
+    color: COLORS.accent,
+    fontWeight: "800",
+    fontSize: 14,
+    marginLeft: 5,
   },
 });
 
