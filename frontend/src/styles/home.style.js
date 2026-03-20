@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
   },
 
   animationWrapper: {
-    width: width * 0.88,
-    height: width * 0.88,
+    width: width * 1.05,
+    height: width * 1.05,
   },
 
   animationTitle: {
