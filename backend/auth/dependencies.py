@@ -1,8 +1,8 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from bson import ObjectId
-from database import get_db
-from auth.jwt_handler import decode_token
+from backend.database import get_db
+from backend.auth.jwt_handler import decode_token
 
 security = HTTPBearer()
 
