@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from backend.database import connect_db, close_db
 from backend.routes.auth import router as auth_router
+from backend.routes.plans import router as plans_router
 from backend.routes.plans import router as plans_router  
 
 @asynccontextmanager
@@ -28,4 +29,5 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(plans_router)
 app.include_router(plans_router)  

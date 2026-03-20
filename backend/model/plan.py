@@ -19,6 +19,7 @@ class PlanResult(BaseModel):
     annual_savings: float
     months_to_goal: float
     financial_health: str
+    health_score: int
     expense_ratio: float
     savings_rate: float
     ai_enhanced: bool
