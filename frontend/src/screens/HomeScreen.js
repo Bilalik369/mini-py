@@ -55,7 +55,6 @@ export default function HomeScreen({ navigation }) {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
 
-        {/* ── Lottie Animation ─────────────────────── */}
         <View style={styles.animationSection}>
           <LottieView
             ref={lottieRef}
@@ -70,7 +69,6 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
 
-        {/* ── Sign In / Sign Up buttons ────────────── */}
         <View style={styles.authButtons}>
           <TouchableOpacity
             style={styles.btnSignIn}
@@ -91,7 +89,6 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* ── Features ─────────────────────────────── */}
         <Text style={styles.sectionTitle}>Pourquoi FinanceApp ?</Text>
         <View style={styles.featuresList}>
           {FEATURES.map((f) => (

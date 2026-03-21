@@ -6,7 +6,6 @@ import usePlanStore from "../store/planStore";
 import S from "../styles/planDetail.style";
 import COLORS from "../constants/colors";
 
-// ── Health config ─────────────────────────────────────────────────────────────
 const HEALTH_CFG = {
   Excellent: { color: COLORS.accent,  icon: "trending-up",       bg: "#E6FBF9" },
   Good:      { color: "#1976D2",      icon: "checkmark-circle",  bg: "#E8F4FD" },
@@ -56,7 +55,6 @@ export default function PlanDetailScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
-        {/* ── Header ───────────────────────────────── */}
         <View style={S.header}>
           <View style={S.headerRow}>
             <TouchableOpacity style={S.backBtn} onPress={() => navigation.goBack()}>
@@ -67,7 +65,6 @@ export default function PlanDetailScreen({ navigation }) {
             </Text>
           </View>
 
-          {/* Health hero */}
           <View style={S.healthHero}>
             <View style={[S.healthCircle, { backgroundColor: cfg.color + "33" }]}>
               <Text style={[S.healthScore, { color: cfg.color }]}>
@@ -86,7 +83,6 @@ export default function PlanDetailScreen({ navigation }) {
           </View>
         </View>
 
-        {/* ── Savings highlight ────────────────────── */}
         <View style={S.savingsCard}>
           <View style={S.savingsLeft}>
             <Text style={S.savingsLabel}>Épargne mensuelle recommandée</Text>
@@ -103,7 +99,6 @@ export default function PlanDetailScreen({ navigation }) {
           </View>
         </View>
 
-        {/* ── Metric grid ──────────────────────────── */}
         <View style={S.metricGrid}>
           {METRICS.map((m, i) => (
             <View key={i} style={S.metricCard}>
@@ -115,8 +110,6 @@ export default function PlanDetailScreen({ navigation }) {
             </View>
           ))}
         </View>
-
-        {/* ── Expense ratio ────────────────────────── */}
         <View style={S.progressSection}>
           <Text style={S.sectionTitle}>Ratio de dépenses</Text>
           <View style={S.progressCard}>
@@ -144,7 +137,6 @@ export default function PlanDetailScreen({ navigation }) {
           </View>
         </View>
 
-        {/* ── Tips ────────────────────────────────── */}
         {r.tips?.length > 0 && (
           <View style={S.tipsSection}>
             <Text style={S.sectionTitle}>Conseils personnalisés 💡</Text>
@@ -159,7 +151,6 @@ export default function PlanDetailScreen({ navigation }) {
           </View>
         )}
 
-        {/* ── Footer action ────────────────────────── */}
         <TouchableOpacity
           style={S.footerBtn}
           onPress={() => navigation.navigate("CreatePlan")}

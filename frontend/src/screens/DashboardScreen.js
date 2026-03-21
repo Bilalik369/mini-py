@@ -11,7 +11,6 @@ import usePlanStore from "../store/planStore";
 import S from "../styles/dashboard.style";
 import COLORS from "../constants/colors";
 
-// ── Health badge colours ──────────────────────────────────────────────────────
 const HEALTH_COLOR = {
   Excellent: { bg: "#E6FBF9", text: COLORS.accent },
   Good:      { bg: "#E8F4FD", text: "#1976D2"     },
@@ -66,7 +65,6 @@ export default function DashboardScreen({ navigation }) {
   const { user, logout }            = useAuthStore();
   const { plans, isLoading, fetchPlans, setCurrentPlan } = usePlanStore();
 
-  // Reload plans each time this screen comes into focus
   useFocusEffect(
     useCallback(() => { fetchPlans(); }, [])
   );
@@ -106,11 +104,10 @@ export default function DashboardScreen({ navigation }) {
           />
         }
       >
-        {/* ── Header ──────────────────────────────── */}
         <View style={S.header}>
           <View style={S.headerRow}>
             <View>
-              <Text style={S.greeting}>Bienvenue 👋</Text>
+              <Text style={S.greeting}>Bienvenue</Text>
               <Text style={S.username}>{user?.username ?? "Utilisateur"}</Text>
             </View>
             <View style={S.avatarCircle}>
@@ -118,7 +115,6 @@ export default function DashboardScreen({ navigation }) {
             </View>
           </View>
 
-          {/* Summary banner */}
           <View style={S.summaryBanner}>
             <View style={S.summaryCard}>
               <Text style={S.summaryValue}>{plans.length}</Text>
@@ -135,7 +131,6 @@ export default function DashboardScreen({ navigation }) {
           </View>
         </View>
 
-        {/* ── CTA ─────────────────────────────────── */}
         <View style={S.ctaWrap}>
           <TouchableOpacity
             style={S.ctaBtn}
@@ -147,7 +142,6 @@ export default function DashboardScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        {/* ── Plans list ──────────────────────────── */}
         <Text style={S.sectionTitle}>
           {plans.length > 0 ? `Mes plans (${plans.length})` : "Mes plans"}
         </Text>
@@ -179,7 +173,6 @@ export default function DashboardScreen({ navigation }) {
           ))
         )}
 
-        {/* ── Logout ──────────────────────────────── */}
         <TouchableOpacity style={S.logoutRow} onPress={handleLogout} activeOpacity={0.7}>
           <Ionicons name="log-out-outline" size={16} color={COLORS.textSecondary} />
           <Text style={S.logoutText}>Se déconnecter</Text>

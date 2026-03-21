@@ -13,10 +13,8 @@ const apiClient = axios.create({
   timeout: 8000,
 });
 
-// Inject Bearer token automatically from Zustand store
 apiClient.interceptors.request.use((config) => {
   try {
-    // Zustand persists to memory; we import lazily to avoid circular deps
     const { token } = require("../store/authStore").default.getState();
     if (token) config.headers.Authorization = `Bearer ${token}`;
   } catch (_) {}

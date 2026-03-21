@@ -65,7 +65,6 @@ export default function CreatePlanScreen({ navigation }) {
     >
       <StatusBar style="light" />
 
-      {/* ── Header ───────────────────────────────── */}
       <View style={S.header}>
         <TouchableOpacity style={S.backBtn} onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={20} color={COLORS.white} />
@@ -178,7 +177,6 @@ export default function CreatePlanScreen({ navigation }) {
             </View>
           </View>
 
-          {/* Notes */}
           <View style={S.inputGroup}>
             <Text style={S.label}>Notes (optionnel)</Text>
             <TextInput

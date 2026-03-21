@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
   const [password,     setPassword]     = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
-  const [formError,    setFormError]    = useState("");   // ← inline error
+  const [formError,    setFormError]    = useState("");   
 
   const { login, isLoading, clearError } = useAuthStore();
 
@@ -43,7 +43,6 @@ export default function LoginScreen({ navigation }) {
     >
       <StatusBar style="light" />
 
-      {/* ── Navy Header ──────────────────────────────── */}
       <View style={styles.header}>
         <View style={styles.logoCircle}>
           <Ionicons name="wallet" size={36} color={COLORS.primary} />
@@ -52,19 +51,17 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.appTagline}>Gérez votre argent intelligemment</Text>
       </View>
 
-      {/* ── White Card ───────────────────────────────── */}
       <ScrollView
         style={styles.card}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.cardTitle}>Bon retour 👋</Text>
+        <Text style={styles.cardTitle}>Bon retour </Text>
         <Text style={styles.cardSubtitle}>
           Connectez-vous pour accéder à votre tableau de bord
         </Text>
 
-        {/* ── Inline error banner ───────────────────── */}
         {formError !== "" && (
           <View style={{
             flexDirection: "row", alignItems: "center",
@@ -82,7 +79,6 @@ export default function LoginScreen({ navigation }) {
           </View>
         )}
 
-        {/* Email */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>E-mail</Text>
           <View style={[
@@ -109,7 +105,6 @@ export default function LoginScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Password */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Mot de passe</Text>
           <View style={[

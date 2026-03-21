@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { authAPI } from "../api/client";
 
-// Parse axios errors into a user-friendly message
 const _parseError = (err, fallback) => {
   if (err.code === "ECONNABORTED" || err.message?.includes("timeout")) {
     return "Serveur inaccessible — vérifiez que le backend est démarré.";
