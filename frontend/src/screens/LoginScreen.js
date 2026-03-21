@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   ActivityIndicator,
-  Alert,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,21 +16,23 @@ import styles from "../styles/login.style";
 import COLORS from "../constants/colors";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email,        setEmail]        = useState("");
+  const [password,     setPassword]     = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [formError,    setFormError]    = useState("");   // ← inline error
 
   const { login, isLoading, clearError } = useAuthStore();
 
   const handleLogin = async () => {
+    setFormError("");
     if (!email.trim() || !password.trim()) {
-      Alert.alert("Champs requis", "Veuillez remplir tous les champs.");
+      setFormError("Veuillez remplir tous les champs.");
       return;
     }
     const result = await login(email.trim(), password);
     if (!result.success) {
-      Alert.alert("Échec de connexion", result.error);
+      setFormError(result.error);
     }
   };
 
@@ -63,18 +64,33 @@ export default function LoginScreen({ navigation }) {
           Connectez-vous pour accéder à votre tableau de bord
         </Text>
 
+        {/* ── Inline error banner ───────────────────── */}
+        {formError !== "" && (
+          <View style={{
+            flexDirection: "row", alignItems: "center",
+            backgroundColor: "#FFEBEE", borderRadius: 12,
+            padding: 12, marginBottom: 16, gap: 8,
+            borderWidth: 1, borderColor: "#FFCDD2",
+          }}>
+            <Ionicons name="alert-circle" size={18} color="#C62828" />
+            <Text style={{ flex: 1, fontSize: 13, color: "#C62828", fontWeight: "600" }}>
+              {formError}
+            </Text>
+            <TouchableOpacity onPress={() => setFormError("")}>
+              <Ionicons name="close" size={16} color="#C62828" />
+            </TouchableOpacity>
+          </View>
+        )}
+
         {/* Email */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>E-mail</Text>
-          <View
-            style={[
-              styles.inputContainer,
-              focusedField === "email" && styles.inputContainerFocused,
-            ]}
-          >
+          <View style={[
+            styles.inputContainer,
+            focusedField === "email" && styles.inputContainerFocused,
+          ]}>
             <Ionicons
-              name="mail-outline"
-              size={19}
+              name="mail-outline" size={19}
               color={focusedField === "email" ? COLORS.accent : COLORS.textSecondary}
               style={styles.inputIcon}
             />
@@ -83,7 +99,7 @@ export default function LoginScreen({ navigation }) {
               placeholder="votre@email.com"
               placeholderTextColor={COLORS.placeholderText}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(t) => { setEmail(t); setFormError(""); }}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -96,15 +112,12 @@ export default function LoginScreen({ navigation }) {
         {/* Password */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Mot de passe</Text>
-          <View
-            style={[
-              styles.inputContainer,
-              focusedField === "password" && styles.inputContainerFocused,
-            ]}
-          >
+          <View style={[
+            styles.inputContainer,
+            focusedField === "password" && styles.inputContainerFocused,
+          ]}>
             <Ionicons
-              name="lock-closed-outline"
-              size={19}
+              name="lock-closed-outline" size={19}
               color={focusedField === "password" ? COLORS.accent : COLORS.textSecondary}
               style={styles.inputIcon}
             />
@@ -113,7 +126,7 @@ export default function LoginScreen({ navigation }) {
               placeholder="••••••••"
               placeholderTextColor={COLORS.placeholderText}
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(t) => { setPassword(t); setFormError(""); }}
               secureTextEntry={!showPassword}
               onFocus={() => setFocusedField("password")}
               onBlur={() => setFocusedField(null)}
@@ -124,8 +137,7 @@ export default function LoginScreen({ navigation }) {
             >
               <Ionicons
                 name={showPassword ? "eye-outline" : "eye-off-outline"}
-                size={19}
-                color={COLORS.textSecondary}
+                size={19} color={COLORS.textSecondary}
               />
             </TouchableOpacity>
           </View>
@@ -138,7 +150,7 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.dividerLine} />
         </View>
 
-        {/* Button — teal with navy text */}
+        {/* Button */}
         <TouchableOpacity
           style={[styles.button, isLoading && { opacity: 0.75 }]}
           onPress={handleLogin}
@@ -156,7 +168,7 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.footer}>
           <Text style={styles.footerText}>Pas encore de compte ?</Text>
           <TouchableOpacity
-            onPress={() => { clearError(); navigation.navigate("Signup"); }}
+            onPress={() => { clearError(); setFormError(""); navigation.navigate("Signup"); }}
             activeOpacity={0.7}
           >
             <Text style={styles.link}>S'inscrire</Text>

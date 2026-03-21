@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   ActivityIndicator,
-  Alert,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,41 +26,45 @@ const STRENGTH_COLOR = ["", "#FF6B8A", "#FFB347", "#42A5F5", "#00DCD2"];
 const STRENGTH_LABEL = ["", "Faible", "Moyen", "Bon", "Fort 💪"];
 
 export default function SignupScreen({ navigation }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username,        setUsername]        = useState("");
+  const [email,           setEmail]           = useState("");
+  const [password,        setPassword]        = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [focusedField, setFocusedField] = useState(null);
+  const [showPassword,    setShowPassword]    = useState(false);
+  const [showConfirm,     setShowConfirm]     = useState(false);
+  const [focusedField,    setFocusedField]    = useState(null);
+  const [formError,       setFormError]       = useState("");   // ← inline error
 
   const { register, isLoading, clearError } = useAuthStore();
 
-  const strength = getStrength(password);
-  const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
+  const strength        = getStrength(password);
+  const passwordsMatch  = confirmPassword.length > 0 && password === confirmPassword;
   const passwordsMismatch = confirmPassword.length > 0 && password !== confirmPassword;
   const f = (field) => focusedField === field;
 
+  const showError = (msg) => setFormError(msg);
+
   const handleRegister = async () => {
+    setFormError("");
     if (!username.trim() || !email.trim() || !password || !confirmPassword) {
-      Alert.alert("Champs requis", "Veuillez remplir tous les champs.");
+      showError("Veuillez remplir tous les champs.");
       return;
     }
     if (username.trim().length < 3) {
-      Alert.alert("Nom d'utilisateur", "Minimum 3 caractères requis.");
+      showError("Le nom d'utilisateur doit contenir au moins 3 caractères.");
       return;
     }
     if (password.length < 6) {
-      Alert.alert("Mot de passe", "Minimum 6 caractères requis.");
+      showError("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert("Erreur", "Les mots de passe ne correspondent pas.");
+      showError("Les mots de passe ne correspondent pas.");
       return;
     }
     const result = await register(username.trim(), email.trim(), password);
     if (!result.success) {
-      Alert.alert("Échec de l'inscription", result.error);
+      showError(result.error);
     }
   };
 
@@ -89,17 +92,32 @@ export default function SignupScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.cardTitle}>Inscription ✨</Text>
-        <Text style={styles.cardSubtitle}>
-          Quelques informations pour commencer
-        </Text>
+        <Text style={styles.cardSubtitle}>Quelques informations pour commencer</Text>
+
+        {/* ── Inline error banner ───────────────────── */}
+        {formError !== "" && (
+          <View style={{
+            flexDirection: "row", alignItems: "center",
+            backgroundColor: "#FFEBEE", borderRadius: 12,
+            padding: 12, marginBottom: 16, gap: 8,
+            borderWidth: 1, borderColor: "#FFCDD2",
+          }}>
+            <Ionicons name="alert-circle" size={18} color="#C62828" />
+            <Text style={{ flex: 1, fontSize: 13, color: "#C62828", fontWeight: "600" }}>
+              {formError}
+            </Text>
+            <TouchableOpacity onPress={() => setFormError("")}>
+              <Ionicons name="close" size={16} color="#C62828" />
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* Username */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Nom d'utilisateur</Text>
           <View style={[styles.inputContainer, f("username") && styles.inputContainerFocused]}>
             <Ionicons
-              name="person-outline"
-              size={19}
+              name="person-outline" size={19}
               color={f("username") ? COLORS.accent : COLORS.textSecondary}
               style={styles.inputIcon}
             />
@@ -108,7 +126,7 @@ export default function SignupScreen({ navigation }) {
               placeholder="johndoe"
               placeholderTextColor={COLORS.placeholderText}
               value={username}
-              onChangeText={setUsername}
+              onChangeText={(t) => { setUsername(t); setFormError(""); }}
               autoCapitalize="none"
               autoCorrect={false}
               onFocus={() => setFocusedField("username")}
@@ -125,8 +143,7 @@ export default function SignupScreen({ navigation }) {
           <Text style={styles.label}>Adresse e-mail</Text>
           <View style={[styles.inputContainer, f("email") && styles.inputContainerFocused]}>
             <Ionicons
-              name="mail-outline"
-              size={19}
+              name="mail-outline" size={19}
               color={f("email") ? COLORS.accent : COLORS.textSecondary}
               style={styles.inputIcon}
             />
@@ -135,7 +152,7 @@ export default function SignupScreen({ navigation }) {
               placeholder="votre@email.com"
               placeholderTextColor={COLORS.placeholderText}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(t) => { setEmail(t); setFormError(""); }}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -153,8 +170,7 @@ export default function SignupScreen({ navigation }) {
           <Text style={styles.label}>Mot de passe</Text>
           <View style={[styles.inputContainer, f("password") && styles.inputContainerFocused]}>
             <Ionicons
-              name="lock-closed-outline"
-              size={19}
+              name="lock-closed-outline" size={19}
               color={f("password") ? COLORS.accent : COLORS.textSecondary}
               style={styles.inputIcon}
             />
@@ -163,7 +179,7 @@ export default function SignupScreen({ navigation }) {
               placeholder="••••••••"
               placeholderTextColor={COLORS.placeholderText}
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(t) => { setPassword(t); setFormError(""); }}
               secureTextEntry={!showPassword}
               onFocus={() => setFocusedField("password")}
               onBlur={() => setFocusedField(null)}
@@ -171,8 +187,7 @@ export default function SignupScreen({ navigation }) {
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
               <Ionicons
                 name={showPassword ? "eye-outline" : "eye-off-outline"}
-                size={19}
-                color={COLORS.textSecondary}
+                size={19} color={COLORS.textSecondary}
               />
             </TouchableOpacity>
           </View>
@@ -199,21 +214,18 @@ export default function SignupScreen({ navigation }) {
         {/* Confirm Password */}
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Confirmer le mot de passe</Text>
-          <View
-            style={[
-              styles.inputContainer,
-              f("confirm") && styles.inputContainerFocused,
-              passwordsMismatch && { borderColor: COLORS.error },
-              passwordsMatch && { borderColor: COLORS.accent },
-            ]}
-          >
+          <View style={[
+            styles.inputContainer,
+            f("confirm") && styles.inputContainerFocused,
+            passwordsMismatch && { borderColor: COLORS.error },
+            passwordsMatch    && { borderColor: COLORS.accent },
+          ]}>
             <Ionicons
-              name="shield-checkmark-outline"
-              size={19}
+              name="shield-checkmark-outline" size={19}
               color={
                 passwordsMismatch ? COLORS.error
                   : passwordsMatch ? COLORS.accent
-                  : f("confirm") ? COLORS.accent
+                  : f("confirm")  ? COLORS.accent
                   : COLORS.textSecondary
               }
               style={styles.inputIcon}
@@ -223,7 +235,7 @@ export default function SignupScreen({ navigation }) {
               placeholder="••••••••"
               placeholderTextColor={COLORS.placeholderText}
               value={confirmPassword}
-              onChangeText={setConfirmPassword}
+              onChangeText={(t) => { setConfirmPassword(t); setFormError(""); }}
               secureTextEntry={!showConfirm}
               onFocus={() => setFocusedField("confirm")}
               onBlur={() => setFocusedField(null)}
@@ -231,8 +243,7 @@ export default function SignupScreen({ navigation }) {
             <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={styles.eyeIcon}>
               <Ionicons
                 name={showConfirm ? "eye-outline" : "eye-off-outline"}
-                size={19}
-                color={COLORS.textSecondary}
+                size={19} color={COLORS.textSecondary}
               />
             </TouchableOpacity>
           </View>
@@ -248,7 +259,7 @@ export default function SignupScreen({ navigation }) {
           )}
         </View>
 
-        {/* Button — teal with navy text */}
+        {/* Button */}
         <TouchableOpacity
           style={[styles.button, isLoading && { opacity: 0.75 }]}
           onPress={handleRegister}
@@ -262,11 +273,11 @@ export default function SignupScreen({ navigation }) {
           )}
         </TouchableOpacity>
 
-        {/* Footer */}
+
         <View style={styles.footer}>
           <Text style={styles.footerText}>Déjà un compte ?</Text>
           <TouchableOpacity
-            onPress={() => { clearError(); navigation.navigate("Login"); }}
+            onPress={() => { clearError(); setFormError(""); navigation.navigate("Login"); }}
             activeOpacity={0.7}
           >
             <Text style={styles.link}>Se connecter</Text>
